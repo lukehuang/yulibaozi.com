@@ -6,4 +6,5 @@
 *.gitignore/
 yulibaozi.com
 *.log
-*.md
+约定文档.md
+需求文档.md
