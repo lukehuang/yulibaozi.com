@@ -1,0 +1,9 @@
+.vscode/
+.DS_*
+/views
+/logs
+/static
+*.gitignore/
+.yulibaozi.com
+*.log
+*.md
