@@ -20,9 +20,13 @@ func (comment *CommentService) Add(vComm *viewmodel.VComment) (string, error) {
 	if vComm.Aid <= 0 {
 		return constname.ErrComment, errors.New("未传入文章id")
 	}
-	vComm.RowID = util.GetUUID()
+	uuid, err := util.GetUUID()
+	if err != nil {
+		return constname.ErrComment, err
+	}
+	vComm.RowID = uuid
 	comm := new(models.Comment)
-	err := mapper.AutoMapper(vComm, comm)
+	err = mapper.AutoMapper(vComm, comm)
 	if err != nil {
 		return constname.ErrComment, err
 	}
