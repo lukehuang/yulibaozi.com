@@ -57,8 +57,7 @@ func (base *BaseController) Respone(ctx dotweb.Context, code int, count interfac
 	if len(errs) > 0 { //记录日志
 
 	}
-	_, err := ctx.WriteJson(resp)
-	return err
+	return ctx.WriteJson(resp)
 }
 
 // SetPaginator 分页器
