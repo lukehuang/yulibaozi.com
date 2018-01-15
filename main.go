@@ -21,7 +21,7 @@ func main() {
 	// routers.InitRoute(app.HttpServer)
 	app.SetEnabledLog(true)
 	app.SetLogPath("logs")
-	port := 8080
+	port := 8010
 	routers.InitRoute(app.HttpServer)
 	err := app.StartServer(port)
 	if err != nil {

@@ -3,8 +3,6 @@ package controllers
 import (
 	"html"
 
-	"github.com/lunny/log"
-
 	"github.com/devfeel/dotweb"
 	"github.com/yulibaozi/yulibaozi.com/constname"
 	"github.com/yulibaozi/yulibaozi.com/controllers/viewmodel"
@@ -19,9 +17,7 @@ type CommentController struct {
 // Add 添加评论
 func (commCon *CommentController) Add(ctx dotweb.Context) (err error) {
 	vComm := new(viewmodel.VComment)
-	log.Infof("请求的数据:%v", string(ctx.Request().PostBody()))
 	commCon.DecodeJSONReq(ctx, vComm)
-	log.Infof("解析后的数据:%v", vComm)
 	vComm.NickName = html.EscapeString(vComm.NickName)
 	vComm.ToUserName = html.EscapeString(vComm.ToUserName)
 	vComm.Content = html.EscapeString(vComm.Content)

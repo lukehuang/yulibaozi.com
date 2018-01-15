@@ -27,7 +27,7 @@ func (artCon *ArtiCleController) Page(ctx dotweb.Context) (err error) {
 	if err != nil {
 		return artCon.Respone(ctx, constname.ErrData, 0, nil, msg, err)
 	}
-	return artCon.Respone(ctx, constname.OK, len(list), list, "")
+	return artCon.Respone(ctx, constname.OK, count, list, "")
 }
 
 // Hot 获取前N条热门文章
