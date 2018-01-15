@@ -4,55 +4,55 @@ package viewmodel
 type Art struct {
 	ID           int64   `json:"id"`
 	Userid       int64   `json:"userid"`
-	Username     string  `json:"usernamez"` //作者名字
-	Picture      string  `json:"picture"`
-	Title        string  `json:"title"`
-	Content      string  `json:"content" `
-	Thumbscount  int     `json:"thumbscount"`
-	Viewcount    int     `json:"viewcount"`
-	Commentcount int     `json:"commentcount"`
-	ReleaseStr   string  `json:"releasestr"`
-	Year         int     `json:"year"`
-	Month        int     `json:"month"`
-	Day          int     `json:"day"`
-	Copyright    string  `json:"Copyright"`
-	Cates        []*Kind `json:"cates"`
-	Tags         []*Kind `json:"tags"`
+	Username     string  `json:"username"`     //作者名字
+	Picture      string  `json:"picture"`      //文章图片
+	Title        string  `json:"title"`        //文章标题
+	Content      string  `json:"content" `     //文章内容
+	Thumbscount  int     `json:"thumbscount"`  //点赞数
+	Viewcount    int     `json:"viewcount"`    //浏览数
+	Commentcount int     `json:"commentcount"` //评论数
+	ReleaseStr   string  `json:"releasestr"`   //发布时间(string)
+	Year         int     `json:"year"`         //发布年
+	Month        int     `json:"month"`        //发布月
+	Day          int     `json:"day"`          //发布天
+	Copyright    string  `json:"Copyright"`    //文章声明
+	Cates        []*Kind `json:"cates"`        //文章分类列表
+	Tags         []*Kind `json:"tags"`         //文章的标签列表
 }
 
 // Kind 分类或者标签模型
 type Kind struct {
 	ID         int64  `json:"id"`
-	CateName   string `json:"catename"`
-	Count      int64  `json:"count"`
-	ReleaseStr string `json:"releasestr"`
-	NewsID     int64  `json:"newsid"`
-	Title      string `json:"title"`
+	CateName   string `json:"catename"`   //分类或者标签的名称
+	Count      int64  `json:"count"`      //总数
+	ReleaseStr string `json:"releasestr"` //发布时间(string)
+	NewsID     int64  `json:"newsid"`     //最新文章Id
+	Title      string `json:"title"`      //最新文章的标题
 }
 
 // VComment 评论视图模型
 type VComment struct {
 	ID         int64  `json:"id"`
-	RowID      string `json:"rowid"`    //当前行id
-	ParentID   string `json:"parentid"` //父id
-	Aid        int64  `json:"aid"`      //文章id
-	NickName   string `json:"nickname"`
-	ToUserName string `json:"tousername"` //二级回复时
-	Email      string `json:"email"`
-	WebSite    string `json:"website"`
-	Content    string `json:"content"`
+	RowID      string `json:"rowid"`      //当前行id
+	ParentID   string `json:"parentid"`   //父id
+	Aid        int64  `json:"aid"`        //文章id
+	NickName   string `json:"nickname"`   //当前用户名
+	ToUserName string `json:"tousername"` //二级回复时,回复给某人的用户名
+	Email      string `json:"email"`      //邮件
+	WebSite    string `json:"website"`    //站点
+	Content    string `json:"content"`    //文字内容
 }
 
 // StatisAll 归档部分返回的列表
 type StatisAll struct {
-	Years []*VYear  `json:"years"`
-	Varts []*Static `json:"varts"`
+	Years []*VYear  `json:"years"` //文章分布的年和月
+	Varts []*Static `json:"varts"` //分布的文章归档
 }
 
 // CommentsReply 评论和回复
 type CommentsReply struct {
-	Comment *VComment   `json:"comment"`
-	Replys  []*VComment `json:"replys"`
+	Comment *VComment   `json:"comment"` //评论
+	Replys  []*VComment `json:"replys"`  //评论下的回复
 }
 
 // Static 文章归档
@@ -69,9 +69,9 @@ type Static2 struct {
 
 // StaticArt 归档文章所需要的模型
 type StaticArt struct {
-	ID        int64  `json:"id"`
-	Title     string `json:"title"`
-	Userid    int64  `json:"userid"`
+	ID        int64  `json:"id"`        //文章id
+	Title     string `json:"title"`     //标题
+	Userid    int64  `json:"userid"`    //用户id
 	Username  string `json:"usernamez"` //作者名字
 	Year      int    `json:"year"`      //发布的年
 	Month     int    `json:"month"`     //发布的月
@@ -94,6 +94,7 @@ type LinkAndCate struct {
 // Link 链接部分
 type Link struct {
 	Name  string `json:"name"`
+	URL   string `json:"url"`
 	Image string `json:"image"`
 }
 
