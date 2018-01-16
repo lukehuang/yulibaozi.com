@@ -3,6 +3,7 @@ package routers
 import (
 	"github.com/devfeel/dotweb"
 	"github.com/yulibaozi/yulibaozi.com/controllers"
+	"github.com/yulibaozi/yulibaozi.com/controllers/v"
 )
 
 // InitRoute 路由
@@ -37,4 +38,8 @@ func InitRoute(server *dotweb.HttpServer) {
 	groupAPI.GET("/rec/get", new(controllers.RecController).GetN)
 	//获取轮播图部分
 	groupAPI.GET("/slide/tops", new(controllers.SlideController).TopN)
+	//上传文件
+	groupAPI.POST("/postfile", new(controllers.FileController).LoadFile)
+	//视图
+	groupAPI.GET("/index", v.ViewIndex)
 }

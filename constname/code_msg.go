@@ -13,4 +13,5 @@ const (
 	ErrParaMeMsg = "请检查你输入的数据!"
 	InfoNotData  = "数据消失啦"
 	ErrComment   = "评论失败"
+	ErrUpload    = "上传失败"
 )

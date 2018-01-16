@@ -4,15 +4,16 @@ package constname
 
 //秘钥部分
 const (
-	AccessKey = "x-x"
-	SecretKey = "x"
+	AccessKey = "xxx"
+	SecretKey = "xxx"
 	Prefix    = "http://"
 )
 
 //bucket部分
 var (
-	Buckets = []string{"arts", "home", "links", "slide"} //文章,主要logo等,外部链接,轮播图
-	Domains = []string{"p2xx.com", "pxxxn.com", "xxx.com", "xxx"}
+	Buckets  = []string{"arts", "home", "links", "slide"} //文章,主要logo等,外部链接,轮播图
+	Domains  = []string{"xx", "xxx", "xxx", "xxx"}
+	LenBucks = len(Buckets)
 )
 
 // 对象存储的分类

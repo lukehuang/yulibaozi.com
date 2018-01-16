@@ -15,3 +15,8 @@ const (
 	// LikeLimit 猜我喜欢的限制条数
 	LikeLimit = 3
 )
+
+// 存储文件的地址
+const (
+	FilePath = "/Users/yulibaozi/GoWorkSpace/src/github.com/yulibaozi/yulibaozi.com/file/"
+)

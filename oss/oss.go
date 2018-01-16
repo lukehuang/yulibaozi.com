@@ -5,20 +5,14 @@ import (
 	"errors"
 	"path/filepath"
 
-	"github.com/yulibaozi/yulibaozi.com/util"
-
 	"github.com/qiniu/api.v7/auth/qbox"
 	"github.com/qiniu/api.v7/storage"
 	"github.com/yulibaozi/yulibaozi.com/constname"
 )
 
-var (
-	lenBucks = len(constname.Buckets)
-)
-
 // GetTocket 获取某一个Bucket对象存储Token
 func GetTocket(num int) (token string, err error) {
-	if num < 0 || num >= lenBucks {
+	if num < 0 || num >= constname.LenBucks {
 		return "", errors.New("num的长度越界,请检查配置")
 	}
 	putPolicy := storage.PutPolicy{
@@ -61,18 +55,15 @@ func PutFile(file string, num int) (*PutResult, error) {
 	}
 	cfg := storage.Config{}
 	key := GetFileName(file)
-	uid, _ := util.GetUUID()
-	ossKey := uid + "/" + key //唯一性key
 	formUploader := storage.NewFormUploader(&cfg)
-	err = formUploader.PutFile(context.Background(), nil, token, ossKey, file, nil)
+	err = formUploader.PutFile(context.Background(), nil, token, key, file, nil)
 	if err != nil {
 		return nil, err
 	}
-
 	return &PutResult{
 		Domain: constname.Domains[num],
-		Key:    ossKey,
-		URL:    GetURL(constname.Domains[num], ossKey),
+		Key:    key,
+		URL:    GetURL(constname.Domains[num], key),
 		Bucket: constname.Buckets[num],
 	}, err
 }

@@ -15,8 +15,7 @@ func main() {
 	app := dotweb.New()
 	app.SetDevelopmentMode()
 	//静态资源配置
-	// app.HttpServer.ServerFile("/static/*filepath", "/Users/yulibaozi/GoWorkSpace/src/github.com/yulibaozi/yulibaozi.com/static")
-	// app.HttpServer.Renderer().SetTemplatePath("/Users/yulibaozi/GoWorkSpace/src/github.com/yulibaozi/yulibaozi.com/views")
+	app.HttpServer.Renderer().SetTemplatePath("/Users/yulibaozi/GoWorkSpace/src/github.com/yulibaozi/yulibaozi.com/views")
 	app.HttpServer.SetEnabledListDir(false)
 	// routers.InitRoute(app.HttpServer)
 	app.SetEnabledLog(true)
