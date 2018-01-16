@@ -27,7 +27,7 @@ func GetTocket(num int) (token string, err error) {
 	return putPolicy.UploadToken(getMac()), nil
 }
 
-// GetMac 获取Mac地址
+// GetMac 获取Mac
 func getMac() *qbox.Mac {
 	return qbox.NewMac(constname.AccessKey, constname.SecretKey)
 }
