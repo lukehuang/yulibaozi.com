@@ -40,3 +40,23 @@ func (artDAO *ArticleDAO) NewN(n int) ([]*models.Article, error) {
 func (artDAO *ArticleDAO) All() ([]*models.Article, error) {
 	return artDAO.art.All()
 }
+
+// UpdateViewCount 更新浏览次数
+func (artDAO *ArticleDAO) UpdateViewCount(id int64) error {
+	return artDAO.art.UpdateCount(id, "viewcount")
+}
+
+// UpdateCommentCount 更新评论次数
+func (artDAO *ArticleDAO) UpdateCommentCount(id int64) error {
+	return artDAO.art.UpdateCount(id, "commentcount")
+}
+
+// IsView 查看某文章是否浏览过
+func (artDAO *ArticleDAO) IsView(id int64, ip string) (bool, error) {
+	return artDAO.artRds.IsView(id, ip)
+}
+
+// AddViewRec 添加浏览记录
+func (artDAO *ArticleDAO) AddViewRec(id int64, ip string) (bool, error) {
+	return artDAO.artRds.AddView(id, ip)
+}

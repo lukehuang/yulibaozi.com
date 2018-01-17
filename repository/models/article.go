@@ -66,10 +66,10 @@ func (article *Article) Get(id int64) (*Article, error) {
 	return art, err
 }
 
-// UpdateView 更新浏览数
-func (article *Article) UpdateView(id int64) error {
+// UpdateCount 更新某字段的值,例如浏览数和评论数
+func (article *Article) UpdateCount(id int64, field string) error {
 	engine := orm.GetEngine()
-	_, err := engine.Exec(fmt.Sprintf(UpdateString, article.TableName(), "viewcount", "viewcount", id))
+	_, err := engine.Exec(fmt.Sprintf(UpdateString, article.TableName(), field, field, id))
 	return err
 }
 

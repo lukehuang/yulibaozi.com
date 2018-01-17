@@ -45,7 +45,7 @@ func (artService *ArticleService) Page(offset, limit int) ([]*viewmodel.Art, str
 }
 
 // Get 获取某一条文章
-func (artService *ArticleService) Get(aid int64) (*viewmodel.Art, string, error) {
+func (artService *ArticleService) Get(aid int64, ip string) (*viewmodel.Art, string, error) {
 	art, err := new(dao.ArticleDAO).Get(aid)
 	if err != nil {
 		return nil, constname.InfoNotData, err
@@ -80,6 +80,7 @@ func (artService *ArticleService) Get(aid int64) (*viewmodel.Art, string, error)
 	}
 	vart.Cates = cates
 	vart.Tags = tags
+	go artService.IsAddView(aid, ip) //添加浏览数
 	return vart, "", nil
 }
 
@@ -232,4 +233,29 @@ func (artService *ArticleService) Statistics() ([]*viewmodel.Static, []*viewmode
 		return nil, nil, constname.InfoNotData, nil
 	}
 	return yearStat, vYears, "", nil
+}
+
+// UpdateView 更新浏览次数
+func (artService *ArticleService) updateView(id int64) error {
+	return new(dao.ArticleDAO).UpdateViewCount(id)
+}
+
+//更新评论数
+func (artService *ArticleService) updateComment(id int64) error {
+	return new(dao.ArticleDAO).UpdateCommentCount(id)
+}
+
+// IsAddView 是否需要添加浏览记录
+func (artService *ArticleService) IsAddView(aid int64, ip string) (bool, error) {
+	if ip == "" { //如果ip是空就不处理
+		return false, nil
+	}
+	artDao := new(dao.ArticleDAO)
+	if ok, err := artDao.IsView(aid, ip); ok || err != nil { //不需要添加
+		return ok, err
+	}
+	//需要添加
+	ok, err := artDao.AddViewRec(aid, ip) //更新redis
+	err = artDao.UpdateViewCount(aid)     //更新数据库
+	return ok, err
 }

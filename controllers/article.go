@@ -58,11 +58,13 @@ func (artCon *ArtiCleController) NewN(ctx dotweb.Context) (err error) {
 
 // Get 获取某一条文章
 func (artCon *ArtiCleController) Get(ctx dotweb.Context) (err error) {
+
+	ip := ctx.Request().QueryHeader("ip") //从请求头中获取IP
 	id, err := artCon.GetInt64(ctx.QueryString("id"))
 	if err != nil || id <= 0 {
 		return artCon.Respone(ctx, constname.ErrParaMeter, 0, nil, constname.ErrParaMeMsg, err)
 	}
-	art, msg, err := new(service.ArticleService).Get(id)
+	art, msg, err := new(service.ArticleService).Get(id, ip)
 	if err != nil {
 		return artCon.Respone(ctx, constname.ErrData, 0, nil, msg, err)
 	}

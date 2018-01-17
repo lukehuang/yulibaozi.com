@@ -252,8 +252,8 @@ func SET(key string, value interface{}) (ok bool, err error) {
 // 返回值：设置成功时返回OK；seconds无效时，返回错误
 // key string redis key
 // ex int  key的存活时间  单位s
-// value string key对应的值
-func SETEX(key string, ex int64, value string) (bool, error) {
+// value interface{} key对应的值
+func SETEX(key string, ex int64, value interface{}) (bool, error) {
 	rc := conn.Get()
 	defer rc.Close()
 	result, err := redis.String(rc.Do("SETEX", redis.Args{}.Add(key).Add(ex).Add(value)...))
