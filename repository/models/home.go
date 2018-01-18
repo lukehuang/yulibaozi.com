@@ -31,3 +31,27 @@ func (home *Home) Get() (*Home, error) {
 	err := GetCheck(engine.Desc("id").Get(h))
 	return h, err
 }
+
+// Add 添加记录
+func (home *Home) Add() (int64, error) {
+	engine := orm.GetEngine()
+	return engine.Insert(home)
+}
+
+// Del 删除
+func (home *Home) Del(id int64) (int64, error) {
+	engine := orm.GetEngine()
+	return engine.Id(id).Delete(home)
+}
+
+// Update 更新
+func (home *Home) Update(id int64) (int64, error) {
+	engine := orm.GetEngine()
+	return engine.Id(id).Update(home)
+}
+
+// Count 获取总数
+func (home *Home) Count() (int64, error) {
+	engine := orm.GetEngine()
+	return engine.Count(home)
+}

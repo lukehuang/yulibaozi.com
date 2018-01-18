@@ -17,7 +17,6 @@ type BaseController struct{}
 // obj 解析到的对象
 func (base *BaseController) DecodeJSONReq(ctx dotweb.Context, obj interface{}) {
 	err := json.Unmarshal(ctx.Request().PostBody(), obj)
-	// err := ctx.Bind(obj)
 	if err != nil {
 		base.Respone(ctx, constname.ErrParaMeter, 0, nil, constname.ErrParaMeMsg, err)
 		return
@@ -73,4 +72,11 @@ func (base *BaseController) GetInt64(val string) (int64, error) {
 // GetInt 获取Int类型
 func (base *BaseController) GetInt(val string) (int, error) {
 	return strconv.Atoi(val)
+}
+
+//Filter 权限拦截器
+//判断用户是否登录
+//判断用户是否过期
+func Filter(ctx dotweb.Context) {
+
 }
