@@ -6,7 +6,7 @@ import (
 
 // Slideshow 轮播图部分
 type Slideshow struct {
-	ID         int    `xorm:"pk 'id'" json:"id"`
+	ID         int64  `xorm:"pk 'id'" json:"id"`
 	Image      string `json:"image"`
 	Content    string `json:"content"`
 	URL        string `xorm:"url" json:"url"`
@@ -53,4 +53,11 @@ func (slideshow *Slideshow) Del(id int64) (int64, error) {
 func (slideshow *Slideshow) Update(id int64) (int64, error) {
 	engine := orm.GetEngine()
 	return engine.Id(id).Update(slideshow)
+}
+
+// All 获取所有轮播图
+func (slideshow *Slideshow) All() (list []*Slideshow, err error) {
+	engine := orm.GetEngine()
+	err = engine.Desc("id").Find(&list)
+	return
 }

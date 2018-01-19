@@ -1,3 +1,4 @@
 package admin
 
-//后台部分
+//ArtService 后台文章部分
+type ArtService struct{}

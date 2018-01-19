@@ -8,13 +8,20 @@ import (
 // Category 文章分类和标签
 type Category struct {
 	ID       int64  `xorm:"pk 'id'" json:"id"`
-	Kind     int8   `json:"kind"`     //0：标签 1: 分类
+	Kind     int    `json:"kind"`     //0：标签 1: 分类
 	CateName string `json:"catename"` //分类名字
 	Count    int64  `json:"count"`    //文章总数
 }
 
 func init() {
 	orm.GetEngine().CreateTables(new(Category))
+}
+
+// IsHas 判断某名字是否存在
+func (category *Category) IsHas(name string, kind int) (bool, error) {
+	engine := orm.GetEngine()
+	cat := new(Category)
+	return engine.Where("catename=? and kind=?", name, kind).Get(cat)
 }
 
 // TableName 表名
