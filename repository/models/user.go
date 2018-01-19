@@ -41,3 +41,19 @@ func (user *User) Del(uid int64) (int64, error) {
 	engine := orm.GetEngine()
 	return engine.Id(uid).Delete(user)
 }
+
+// List 获取用户列表
+func (user *User) List() (list []*User, err error) {
+	engine := orm.GetEngine()
+	err = engine.Find(&list)
+	return
+}
+
+// Get 获取单个用户的数据
+func (user *User) Get(uid int64) (*User, error) {
+	engine := orm.GetEngine()
+	u := new(User)
+	err := GetCheck(engine.Id(uid).Get(u))
+	return u, err
+
+}

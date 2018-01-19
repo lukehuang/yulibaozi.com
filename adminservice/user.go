@@ -42,3 +42,25 @@ func (userService *UserService) Del(uid int64) error {
 	_, err := new(dao.UserDAO).Del(uid)
 	return err
 }
+
+// All 获取所有用户列表
+func (userService *UserService) All() ([]*models.User, string, error) {
+	datas, err := new(dao.UserDAO).List()
+	if err != nil {
+		return nil, constname.InfoNotData, err
+	}
+	if len(datas) <= 0 {
+		return nil, constname.InfoNotData, errors.New("未获取到用户数据")
+	}
+	return datas, "", nil
+}
+
+// Get 获取单个用户
+func (userService *UserService) Get(uid int64) (*models.User, string, error) {
+	u, err := new(dao.UserDAO).Get(uid)
+	if err != nil {
+		return nil, constname.InfoNotData, err
+	}
+	return u, "", nil
+
+}
