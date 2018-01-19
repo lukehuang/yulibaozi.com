@@ -22,3 +22,16 @@ func (user *User) TableName() string {
 func init() {
 	orm.GetEngine().CreateTables(new(User))
 }
+
+// Insert 添加
+func (user *User) Insert() (int64, error) {
+	engine := orm.GetEngine()
+	return engine.Insert(user)
+}
+
+// Update 更新
+func (user *User) Update(uid int64) (int64, error) {
+	engine := orm.GetEngine()
+	return engine.Id(uid).Update(user)
+
+}
