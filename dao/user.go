@@ -23,3 +23,8 @@ func (userDAO *UserDAO) Insert(u *models.User) (int64, error) {
 func (userDAO *UserDAO) Update(u *models.User) (int64, error) {
 	return u.Update(u.ID)
 }
+
+// Del  删除某用户
+func (userDAO *UserDAO) Del(uid int64) (int64, error) {
+	return userDAO.user.Del(uid)
+}

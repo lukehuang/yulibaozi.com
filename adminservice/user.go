@@ -36,3 +36,9 @@ func (userService *UserService) AddOrUpdate(u *models.User) (int, string, error)
 	}
 	return constname.OK, "", nil
 }
+
+// Del 删除某用户
+func (userService *UserService) Del(uid int64) error {
+	_, err := new(dao.UserDAO).Del(uid)
+	return err
+}

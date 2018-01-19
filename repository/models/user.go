@@ -35,3 +35,9 @@ func (user *User) Update(uid int64) (int64, error) {
 	return engine.Id(uid).Update(user)
 
 }
+
+// Del 删除用户
+func (user *User) Del(uid int64) (int64, error) {
+	engine := orm.GetEngine()
+	return engine.Id(uid).Delete(user)
+}
