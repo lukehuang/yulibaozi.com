@@ -61,6 +61,6 @@ func (userService *UserService) Get(uid int64) (*models.User, string, error) {
 	if err != nil {
 		return nil, constname.InfoNotData, err
 	}
+	u.Password = ""
 	return u, "", nil
-
 }
