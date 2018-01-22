@@ -1,8 +1,17 @@
 package models
 
 import (
+	"fmt"
+
 	orm "github.com/yulibaozi/yulibaozi.com/conn"
 	"github.com/yulibaozi/yulibaozi.com/constname"
+)
+
+var (
+	// CateAddInString 批量给标签获取添加统计
+	CateAddInString = "UPDATE `%s` SET `%s` = %s + '1'  WHERE id IN(%s)"
+	// CateMinusInString 批量减去
+	CateMinusInString = "UPDATE `%s` SET `%s` = %s - '1'  WHERE id IN(%s)"
 )
 
 // Category 文章分类和标签
@@ -15,6 +24,20 @@ type Category struct {
 
 func init() {
 	orm.GetEngine().CreateTables(new(Category))
+}
+
+// BatchAddCount 批量添加统计
+func (category *Category) BatchAddCount(str string) error {
+	engine := orm.GetEngine()
+	_, err := engine.Exec(fmt.Sprintf(CateAddInString, category.TableName(), "count", "count", str))
+	return err
+}
+
+// BatchMinusCount 批量减去统计
+func (category *Category) BatchMinusCount(str string) error {
+	engine := orm.GetEngine()
+	_, err := engine.Exec(fmt.Sprintf(CateMinusInString, category.TableName(), "count", "count", str))
+	return err
 }
 
 // IsHas 判断某名字是否存在
@@ -72,5 +95,12 @@ func (category *Category) HotTags(n int) (tags []*Category, err error) {
 func (category *Category) List(kind int) (list []*Category, err error) {
 	engine := orm.GetEngine()
 	err = engine.Where("kind=?", kind).Desc("count").Find(&list)
+	return
+}
+
+// CatesORTags 获取分类或者标签列表
+func (category *Category) CatesORTags(ids []int64, kind int) (list []*Category, err error) {
+	engine := orm.GetEngine()
+	err = engine.Where("kind=?", kind).In("id", ids).Find(&list)
 	return
 }

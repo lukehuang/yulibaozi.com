@@ -1,6 +1,8 @@
 package dao
 
 import (
+	"fmt"
+
 	"github.com/yulibaozi/yulibaozi.com/repository/models"
 	"github.com/yulibaozi/yulibaozi.com/repository/redis"
 )
@@ -24,4 +26,52 @@ func (relDAO *RelDAO) Like(cid int64, limit int) ([]*models.ArtCatRel, error) {
 // GetCid 通过分类id获取最新的文章id
 func (relDAO *RelDAO) GetCid(cid int64) (*models.ArtCatRel, error) {
 	return relDAO.rel.GetCid(cid)
+}
+
+// BatchAdd 批量添加
+func (relDAO *RelDAO) BatchAdd(rels []*models.ArtCatRel) error {
+	relLen := len(rels)
+	err := relDAO.rel.BatchAdd(rels)
+	if err != nil {
+		return err
+	}
+	var ids string
+	//添加统计
+	for k, rel := range rels {
+		if rel.CId <= 0 {
+			continue
+		}
+		if k == relLen-1 {
+			ids = ids + fmt.Sprintf("%d", rel.CId)
+			break
+		}
+		ids = ids + fmt.Sprintf("%d,", rel.CId)
+	}
+	if ids == "" {
+		return nil
+	}
+	return new(models.Category).BatchAddCount(ids)
+}
+
+// BatchDel 批量删除
+func (relDAO *RelDAO) BatchDel(rels []*models.ArtCatRel) error {
+	relLen := len(rels)
+	var ids string
+	for k, rel := range rels {
+		if rel.CId <= 0 {
+			continue
+		}
+		if k == relLen-1 {
+			ids = ids + fmt.Sprintf("%d", rel.CId)
+			break
+		}
+		ids = ids + fmt.Sprintf("%d,", rel.CId)
+	}
+	if ids == "" {
+		return nil
+	}
+	relDAO.rel.BatchDel(rels)
+	// 减去统计
+	return new(models.Category).BatchMinusCount(ids)
+
 }

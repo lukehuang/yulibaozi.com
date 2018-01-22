@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"time"
 
 	orm "github.com/yulibaozi/yulibaozi.com/conn"
 )
@@ -9,6 +10,8 @@ import (
 var (
 	// UpdateString 给某字段添加浏览数
 	UpdateString = "UPDATE `%s` SET `%s` = %s + '1'  WHERE (id='%d')"
+	// UpdateInString 批量给标签获取添加统计
+	UpdateInString = "UPDATE `%s` SET `%s` = %s + '1'  WHERE id IN(%s)"
 )
 
 // Article 文章模型
@@ -16,6 +19,7 @@ type Article struct {
 	ID           int64  `xorm:"pk 'id'" json:"id"`
 	Userid       int64  `json:"userid"`           //作者id
 	Username     string `json:"username"`         //作者名字
+	Portrait     string `json:"portrait"`         //作者图片
 	Picture      string `json:"picture"`          //显示图片
 	Title        string `json:"title"`            //标题
 	Content      string `json:"content" `         //内容
@@ -41,9 +45,67 @@ func init() {
 }
 
 // Insert 写入
-func (article *Article) Insert() (int64, error) {
+func (article *Article) Insert(tags, cates []int64) (int64, error) {
+	now := time.Now().Unix()
+	var cateAndTags []int64
+	if len(tags) > 0 {
+		for _, tagID := range tags {
+			if tagID <= 0 {
+				continue
+			}
+			cateAndTags = append(cateAndTags, tagID)
+		}
+	}
+	if len(cates) > 0 {
+		for _, cateID := range cates {
+			if cateID <= 0 {
+				continue
+			}
+			cateAndTags = append(cateAndTags, cateID)
+		}
+	}
+	cateTagsLen := len(cateAndTags)
+	var ids string
+	rels := make([]*ArtCatRel, 0)
 	engine := orm.GetEngine()
-	return engine.Insert(article)
+	session := engine.NewSession()
+	defer session.Close()
+	if err := session.Begin(); err != nil {
+		return 0, err
+	}
+	id, err := session.Insert(article)
+	if err != nil {
+		return 0, err
+	}
+	if cateTagsLen > 0 {
+		for k, v := range cateAndTags {
+			rels = append(rels, &ArtCatRel{
+				AId:        id,
+				CId:        v,
+				CreateTime: now,
+			})
+			if k == cateTagsLen-1 {
+				ids = ids + fmt.Sprintf("%d", v)
+				break
+			}
+			ids = ids + fmt.Sprintf("%d,", v)
+		}
+	}
+	if len(rels) > 0 { //写入关系
+		if _, err := session.Insert(rels); err != nil {
+			return 0, err
+		}
+	}
+	//更新统计
+	if ids != "" {
+		if _, err := session.Exec(fmt.Sprintf(UpdateInString, new(Category).TableName(), "count", "count", ids)); err != nil {
+			return 0, err
+		}
+	}
+	if err := session.Commit(); err != nil {
+		return 0, err
+	}
+	return id, nil
 }
 
 // Del 删除

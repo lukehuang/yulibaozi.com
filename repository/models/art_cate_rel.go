@@ -21,10 +21,25 @@ func (artCatRel *ArtCatRel) TableName() string {
 	return "artcatrel"
 }
 
+// BatchDel 批量删除
+func (artCatRel *ArtCatRel) BatchDel(rels []*ArtCatRel) {
+	engine := orm.GetEngine()
+	for _, v := range rels {
+		engine.Where("aid=? AND cid=?", v.AId, v.CId).Delete(artCatRel)
+	}
+}
+
 // Insert 写入
 func (artCatRel *ArtCatRel) Insert() (int64, error) {
 	engine := orm.GetEngine()
 	return engine.Insert(artCatRel)
+}
+
+// BatchAdd 批量添加
+func (artCatRel *ArtCatRel) BatchAdd(rels []*ArtCatRel) error {
+	engine := orm.GetEngine()
+	_, err := engine.Insert(rels)
+	return err
 }
 
 // Del 删除

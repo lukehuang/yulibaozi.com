@@ -1,10 +1,32 @@
 package viewmodel
 
+// PostArt 添加文章时候的模型
+type PostArt struct {
+	ID           int64   `json:"id"`
+	Userid       int64   `json:"userid"`
+	Username     string  `json:"username"`     //作者名字
+	Portrait     string  `json:"portrait"`     //作者图片
+	Picture      string  `json:"picture"`      //文章图片
+	Title        string  `json:"title"`        //文章标题
+	Content      string  `json:"content" `     //文章内容
+	Thumbscount  int     `json:"thumbscount"`  //点赞数
+	Viewcount    int     `json:"viewcount"`    //浏览数
+	Commentcount int     `json:"commentcount"` //评论数
+	ReleaseStr   string  `json:"releasestr"`   //发布时间(string)
+	Year         int     `json:"year"`         //发布年
+	Month        int     `json:"month"`        //发布月
+	Day          int     `json:"day"`          //发布天
+	Copyright    string  `json:"Copyright"`    //文章声明
+	Cates        []int64 `json:"cates"`        //文章分类列表
+	Tags         []int64 `json:"tags"`         //文章的标签列表
+}
+
 // Art 文章视图
 type Art struct {
 	ID           int64   `json:"id"`
 	Userid       int64   `json:"userid"`
 	Username     string  `json:"username"`     //作者名字
+	Portrait     string  `json:"portrait"`     //作者图片
 	Picture      string  `json:"picture"`      //文章图片
 	Title        string  `json:"title"`        //文章标题
 	Content      string  `json:"content" `     //文章内容

@@ -60,3 +60,18 @@ func (artDAO *ArticleDAO) IsView(id int64, ip string) (bool, error) {
 func (artDAO *ArticleDAO) AddViewRec(id int64, ip string) (bool, error) {
 	return artDAO.artRds.AddView(id, ip)
 }
+
+// Insert 添加文章
+func (artDAO *ArticleDAO) Insert(art *models.Article, tags, cates []int64) (int64, error) {
+	//添加文章
+	//添加标签关系
+	//添加统计
+	return art.Insert(tags, cates)
+
+}
+
+//Update 更新
+func (artDAO *ArticleDAO) Update(art *models.Article) error {
+	_, err := art.Update(art.ID)
+	return err
+}

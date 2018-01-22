@@ -18,5 +18,17 @@ const (
 
 // 存储文件的地址
 const (
-	FilePath = "/Users/yulibaozi/GoWorkSpace/src/github.com/yulibaozi/yulibaozi.com/file/"
+	FilePath         = "/Users/yulibaozi/GoWorkSpace/src/github.com/yulibaozi/yulibaozi.com/file/"
+	DefaultCopyright = "未经允许不得转载"
+)
+
+// 随机图片
+var (
+	ArticleImags = []string{
+		"xxxx",
+		"xxxxx",
+		"1xxxx",
+		"2xxxx",
+		"3xxxxx",
+	}
 )

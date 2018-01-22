@@ -57,3 +57,8 @@ func (catDAO *CategoryDAO) Update(c *models.Category) error {
 	_, err := c.Update(c.ID)
 	return err
 }
+
+// CatesORTags 获取某分类或者标签
+func (catDAO *CategoryDAO) CatesORTags(ids []int64, kind int) (list []*models.Category, err error) {
+	return catDAO.cat.CatesORTags(ids, kind)
+}
