@@ -16,8 +16,8 @@ import (
 //ArtService 后台文章部分
 type ArtService struct{}
 
-// Add 添加文章
-func (artService *ArtService) Add(v *viewmodel.PostArt) (code int, msg string, err error) {
+// AddOrUpdate 添加/更新文章
+func (artService *ArtService) AddOrUpdate(v *viewmodel.PostArt) (code int, msg string, err error) {
 	//1。查看是否有文章或者分类,如果没有就不让写
 	//2.获取文章的封面图片,如果没有传入就随机一张
 	//3.如果是写入,清除统计数据

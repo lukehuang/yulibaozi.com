@@ -13,8 +13,8 @@ type ArtController struct {
 	controllers.BaseController
 }
 
-// Add 添加文章
-func (artCon *ArtController) Add(ctx dotweb.Context) error {
+// AddOrUpdate 添加文章
+func (artCon *ArtController) AddOrUpdate(ctx dotweb.Context) error {
 	art := new(viewmodel.PostArt)
 	artCon.DecodeJSONReq(ctx, art)
 	if art.Content == "" {
@@ -23,11 +23,12 @@ func (artCon *ArtController) Add(ctx dotweb.Context) error {
 	if art.Title == "" {
 		return artCon.Respone(ctx, constname.ErrParaMeter, 0, nil, "请出入完整的标签")
 	}
-	if len(v.Cates) <= 0 {
+	if len(art.Cates) <= 0 {
 		return artCon.Respone(ctx, constname.ErrParaMeter, 0, nil, "请选择分类")
 	}
-	if len(v.Tags) <= 0 {
+	if len(art.Tags) <= 0 {
 		return artCon.Respone(ctx, constname.ErrParaMeter, 0, nil, "请选择文章标签")
 	}
-	new(adminservice.ArtService).Add(art)
+	code, msg, err := new(adminservice.ArtService).AddOrUpdate(art)
+	return artCon.Respone(ctx, code, 0, nil, msg, err)
 }
