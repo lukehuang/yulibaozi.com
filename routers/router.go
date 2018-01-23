@@ -38,6 +38,7 @@ func InitRoute(server *dotweb.HttpServer) {
 	groupAPI.GET("/rec/get", new(controllers.RecController).GetN)
 	//获取轮播图部分
 	groupAPI.GET("/slide/tops", new(controllers.SlideController).TopN)
+	// groupAPI.GET("/slide/sendmail", new(controllers.SlideController).AddMail)
 	//上传文件
 	groupAPI.POST("/postfile", new(controllers.FileController).LoadFile)
 	//视图
