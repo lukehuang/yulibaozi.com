@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -54,6 +55,7 @@ func (base *BaseController) Respone(ctx dotweb.Context, code int, count interfac
 		},
 	}
 	if len(errs) > 0 { //记录日志
+		fmt.Println("err:", errs)
 	}
 	return ctx.WriteJson(resp)
 }

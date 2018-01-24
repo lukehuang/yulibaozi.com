@@ -8,3 +8,4 @@ yulibaozi.com
 *.log
 约定文档.md
 需求文档.md
+/file/*

@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"strconv"
+
 	"github.com/devfeel/dotweb"
 	"github.com/yulibaozi/yulibaozi.com/constname"
 	"github.com/yulibaozi/yulibaozi.com/service"
@@ -14,7 +16,7 @@ type FileController struct {
 // LoadFile 上传文件
 func (fileCon *FileController) LoadFile(ctx dotweb.Context) (err error) {
 	// 文件属于类型
-	typeid := ctx.QueryInt("typeid")
+	typeid, err := strconv.Atoi(ctx.FormValue("typeid"))
 	if typeid < 0 || typeid >= constname.LenBucks {
 		return fileCon.Respone(ctx, constname.ErrParaMeter, 0, nil, constname.ErrParaMeMsg)
 	}
