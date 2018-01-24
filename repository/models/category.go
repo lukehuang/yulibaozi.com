@@ -44,7 +44,7 @@ func (category *Category) BatchMinusCount(str string) error {
 func (category *Category) IsHas(name string, kind int) (bool, error) {
 	engine := orm.GetEngine()
 	cat := new(Category)
-	return engine.Where("catename=? and kind=?", name, kind).Get(cat)
+	return engine.Where("cate_name=? and kind=?", name, kind).Get(cat)
 }
 
 // TableName 表名

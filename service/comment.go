@@ -2,6 +2,8 @@ package service
 
 import (
 	"errors"
+	"fmt"
+	"time"
 
 	"github.com/devfeel/mapper"
 	"github.com/yulibaozi/yulibaozi.com/constname"
@@ -20,6 +22,11 @@ func (comment *CommentService) Add(vComm *viewmodel.VComment) (string, error) {
 	if vComm.Aid <= 0 {
 		return constname.ErrComment, errors.New("未传入文章id")
 	}
+	//获取文章信息
+	art, err := new(dao.ArticleDAO).Get(vComm.Aid)
+	if err != nil {
+		return "评论失败,未找到此文章", err
+	}
 	uuid, err := util.GetUUID()
 	if err != nil {
 		return constname.ErrComment, err
@@ -30,10 +37,18 @@ func (comment *CommentService) Add(vComm *viewmodel.VComment) (string, error) {
 	if err != nil {
 		return constname.ErrComment, err
 	}
+	comm.CreateTime = time.Now().Format(util.StandardTimeFormat)
+	comm.Audit = constname.UnTreat
 	err = new(dao.CommentDAO).Add(comm)
 	if err != nil {
 		return constname.ErrComment, err
 	}
+	//添加成功,需要发消息给作者
+	go func() {
+		if err := sendMail(vComm, art, comm.CreateTime); err != nil {
+			fmt.Println("发送消息失败:", err)
+		}
+	}()
 	return "", nil
 }
 
@@ -136,4 +151,38 @@ func getReplys(comms []*models.Comment, rowID string) ([]*models.Comment, error)
 		return nil, errors.New(constname.InfoNotData)
 	}
 	return s, nil
+}
+
+func sendMail(vComm *viewmodel.VComment, art *models.Article, timeStr string) error {
+	//获取系统配置
+	h, err := new(dao.HomeDAO).Get()
+	if err != nil {
+		return err
+	}
+	//获取用户信息
+	user, err := new(dao.UserDAO).Get(art.Userid)
+	if err != nil {
+		return err
+	}
+	//获取未处理的评论
+	count, _ := new(dao.CommentDAO).CountPassNum(constname.UnTreat)
+	m := &CommentMail{
+		SiteName:   h.Name,
+		Signature:  h.AWord,
+		UserName:   user.Nickname,
+		Useremail:  user.Email,
+		ArtTitle:   art.Title,
+		ArtURL:     "xxxxx",
+		Author:     vComm.NickName,
+		Mail:       vComm.Email,
+		URL:        vComm.WebSite,
+		IP:         vComm.IP,
+		Content:    vComm.Content,
+		PassURL:    "xxxx",
+		DelURL:     "xxxxx",
+		NowDate:    timeStr,
+		Num:        int(count),
+		UntreatURL: "xxxxx",
+	}
+	return SendMail(m)
 }

@@ -17,6 +17,9 @@ func (userService *UserService) AddOrUpdate(u *models.User) (int, string, error)
 	if u.Nickname == "" {
 		return constname.ErrParaMeter, "请检查输入数据", nil
 	}
+	if u.Password != "" {
+		u.Password = util.Md5(u.Password)
+	}
 	if u.ID <= 0 { //添加
 		if u.Password == "" {
 			return constname.ErrParaMeter, "密码不能为空", errors.New("添加用户时密码不能为空")
@@ -26,9 +29,6 @@ func (userService *UserService) AddOrUpdate(u *models.User) (int, string, error)
 			return constname.ErrAddOrModifyDEL, "创建用户失败", err
 		}
 		return constname.OK, "", nil
-	}
-	if u.Password != "" {
-		u.Password = util.Md5(u.Password)
 	}
 	_, err := new(dao.UserDAO).Update(u)
 	if err != nil {

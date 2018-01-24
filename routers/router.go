@@ -3,6 +3,7 @@ package routers
 import (
 	"github.com/devfeel/dotweb"
 	"github.com/yulibaozi/yulibaozi.com/controllers"
+	"github.com/yulibaozi/yulibaozi.com/controllers/admin"
 	"github.com/yulibaozi/yulibaozi.com/controllers/v"
 )
 
@@ -43,4 +44,19 @@ func InitRoute(server *dotweb.HttpServer) {
 	groupAPI.POST("/postfile", new(controllers.FileController).LoadFile)
 	//视图
 	groupAPI.GET("/index", v.ViewIndex)
+
+	/*后台接口部分*/
+	adminCate := new(admin.CateController)
+	adminAPI := server.Group("/admin")
+	//分类部分
+	cat := adminAPI.Group("/cate")
+	cat.POST("/post", adminCate.AddOrUpdate) //添加/修改分类
+	//文章部分
+	adminArt := new(admin.ArtController)
+	art := adminAPI.Group("/art")
+	art.POST("/post", adminArt.AddOrUpdate)
+	//用户部分
+	user := new(admin.UserController)
+	adminUser := adminAPI.Group("/user")
+	adminUser.POST("/post", user.AddOrUpate)
 }

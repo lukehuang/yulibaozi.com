@@ -83,3 +83,10 @@ func (comment *Comment) Gets(aid int64) (list []*Comment, err error) {
 	err = engine.Where("aid=?", aid).Where("audit=?", constname.Pass).Find(&list)
 	return
 }
+
+// CountPassNum 获取某审核状态的总数
+func (comment *Comment) CountPassNum(passnum int) (int64, error) {
+	engine := orm.GetEngine()
+	c := new(Comment)
+	return engine.Where("audit=?", passnum).Count(c)
+}

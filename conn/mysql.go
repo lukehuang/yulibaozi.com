@@ -15,7 +15,7 @@ var (
 
 func init() {
 	var err error
-	dateSource := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4", "root", "Root123.", "127.0.0.1", 3306, "yulibaozii") + "&loc=Asia%2FShanghai"
+	dateSource := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4", "root", "Root123.", "127.0.0.1", 3306, "yulibaozi") + "&loc=Asia%2FShanghai"
 	engine, err = xorm.NewEngine("mysql", dateSource)
 	if err != nil {
 		panic(fmt.Sprintf(constname.ErrMysqlInit, err))

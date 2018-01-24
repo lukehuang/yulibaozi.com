@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"reflect"
 
 	"github.com/yulibaozi/yulibaozi.com/constname"
@@ -52,7 +51,9 @@ func SendMail(comm *CommentMail) error {
 		Title:   title,
 		Content: mailContent,
 	}
-	fmt.Println(m)
 	return constname.SendMail(param)
 
 }
+
+//获取系统配置
+//获取用户配置

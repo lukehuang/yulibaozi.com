@@ -26,13 +26,18 @@ func (artService *ArtService) AddOrUpdate(v *viewmodel.PostArt) (code int, msg s
 	if err != nil || u.ID <= 0 {
 		return constname.ErrAddOrModifyDEL, "未找到作者,请核查", err
 	}
+	//查看该名字是否已经存在,存在就返回
+	queryArt, _ := new(dao.ArticleDAO).GetTitle(v.Title)
+	if queryArt.ID > 0 {
+		return constname.ErrAddOrModifyDEL, "此文章已经存在", errors.New("文章名重复,添加/更新失败")
+	}
 	//检查分类/标签是否存在
 	//检查分类
 	list, err := new(dao.CategoryDAO).CatesORTags(v.Cates, constname.CatID)
 	if err != nil {
 		return constname.ErrAddOrModifyDEL, "添加文章出错,未找到该分类,请重试", err
 	}
-	if list == nil || len(list) <= len(v.Cates) {
+	if list == nil || len(list) < len(v.Cates) {
 		return constname.ErrAddOrModifyDEL, "添加文章出错,未找到该分类,可能是分类不存在", errors.New("查询到分类和传入的不符")
 	}
 	//检查标签
@@ -40,7 +45,7 @@ func (artService *ArtService) AddOrUpdate(v *viewmodel.PostArt) (code int, msg s
 	if err != nil {
 		return constname.ErrAddOrModifyDEL, "添加文章出错,未找到该标签,请重试", err
 	}
-	if tags == nil || len(tags) <= len(v.Tags) {
+	if tags == nil || len(tags) < len(v.Tags) {
 		return constname.ErrAddOrModifyDEL, "添加文章出错,未找到该标签,可能是标签不存在", errors.New("查询到标签和传入的不符")
 	}
 	//判断是否有图片,如果有图片就不操作,如果没有就操作
@@ -67,6 +72,7 @@ func (artService *ArtService) AddOrUpdate(v *viewmodel.PostArt) (code int, msg s
 		art.Commentcount = 0
 		art.ReleaseStr = now.Format(util.StandardTimeFormat)
 		art.Updatedat = now.Unix()
+		art.ReleaseTime = now.Unix()
 		art.Year = now.Year()
 		art.Month = int(now.Month())
 		art.Day = now.Day()

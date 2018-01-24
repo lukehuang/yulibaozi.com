@@ -74,10 +74,15 @@ func (article *Article) Insert(tags, cates []int64) (int64, error) {
 	if err := session.Begin(); err != nil {
 		return 0, err
 	}
-	id, err := session.Insert(article)
-	if err != nil {
+	if _, err := session.InsertOne(article); err != nil {
 		return 0, err
 	}
+	queryArt := new(Article)
+	ok, err := session.Where("title=?", article.Title).Get(queryArt)
+	if err != nil || !ok {
+		return 0, fmt.Errorf("未获取到数据,可能的错误是:%v", err)
+	}
+	id := queryArt.ID
 	if cateTagsLen > 0 {
 		for k, v := range cateAndTags {
 			rels = append(rels, &ArtCatRel{
@@ -119,6 +124,14 @@ func (article *Article) Del(id int64) (int64, error) {
 func (article *Article) Update(id int64) (int64, error) {
 	engine := orm.GetEngine()
 	return engine.Id(id).Update(article)
+}
+
+// GetTitle 通过标题查询文章
+func (article *Article) GetTitle(title string) (*Article, error) {
+	engine := orm.GetEngine()
+	art := new(Article)
+	err := GetCheck(engine.Where("title=?", title).Get(art))
+	return art, err
 }
 
 // Get 获取一条记录

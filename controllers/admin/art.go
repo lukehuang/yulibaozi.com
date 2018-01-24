@@ -21,7 +21,7 @@ func (artCon *ArtController) AddOrUpdate(ctx dotweb.Context) error {
 		return artCon.Respone(ctx, constname.ErrParaMeter, 0, nil, "请输入文章内容")
 	}
 	if art.Title == "" {
-		return artCon.Respone(ctx, constname.ErrParaMeter, 0, nil, "请出入完整的标签")
+		return artCon.Respone(ctx, constname.ErrParaMeter, 0, nil, "请出入完整的标题")
 	}
 	if len(art.Cates) <= 0 {
 		return artCon.Respone(ctx, constname.ErrParaMeter, 0, nil, "请选择分类")

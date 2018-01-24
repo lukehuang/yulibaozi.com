@@ -34,3 +34,8 @@ func (comDAO *CommentDAO) Comments(aid int64) ([]*models.Comment, error) {
 func (comDAO *CommentDAO) Gets(aid int64) ([]*models.Comment, error) {
 	return comDAO.comment.Gets(aid)
 }
+
+//CountPassNum 获取某审核状态的总数
+func (comDAO *CommentDAO) CountPassNum(passNum int) (int64, error) {
+	return comDAO.comment.CountPassNum(passNum)
+}

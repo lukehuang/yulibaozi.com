@@ -75,3 +75,8 @@ func (artDAO *ArticleDAO) Update(art *models.Article) error {
 	_, err := art.Update(art.ID)
 	return err
 }
+
+// GetTitle 通过标题查询数据
+func (artDAO *ArticleDAO) GetTitle(title string) (*models.Article, error) {
+	return artDAO.art.GetTitle(title)
+}
