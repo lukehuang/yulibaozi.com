@@ -14,11 +14,11 @@ import (
 
 // mail配置
 const (
-	Host     = "xxx"
+	Host     = "smtp.163.com"
 	Port     = 25
-	UserMail = "xxx"
-	PassWord = "xx"
-	From     = "xxx"
+	UserMail = "xxx@163.com"
+	PassWord = "xxxx"
+	From     = "xxx@163.com"
 )
 
 // CommentMailTemp 评论的模板

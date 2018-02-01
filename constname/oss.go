@@ -4,15 +4,15 @@ package constname
 
 //秘钥部分
 const (
-	AccessKey = "xxx"
-	SecretKey = "xxx"
+	AccessKey = "xx-96xXjzoe0Mxn1IAcGG"
+	SecretKey = "xx"
 	Prefix    = "http://"
 )
 
 //bucket部分
 var (
-	Buckets  = []string{"arts", "home", "links", "slide"} //文章,主要logo等,外部链接,轮播图
-	Domains  = []string{"xx", "xxx", "xxx", "xxx"}
+	Buckets  = []string{"arts", "home", "links", "slide", "user"} //文章,主要logo等,外部链接,轮播图
+	Domains  = []string{"arts.yulibaozi.com", "index.yulibaozi.com", "links.yulibaozi.com", "slide.yulibaozi.com", "user.yulibaozi.com"}
 	LenBucks = len(Buckets)
 )
 
@@ -22,4 +22,5 @@ const (
 	HOME  = 1
 	LINKS = 2
 	SLIDE = 3
+	USER  = 4
 )
