@@ -43,6 +43,14 @@ func (linkCate *LinkCate) Get(id int64) (*LinkCate, error) {
 	return link, err
 }
 
+// GetName 通过名字获取分类
+func (linkCate *LinkCate) GetName(name string) (*LinkCate, error) {
+	engine := orm.GetEngine()
+	link := new(LinkCate)
+	err := GetCheck(engine.Where("name=?", name).Get(link))
+	return link, err
+}
+
 // All 获取所有
 func (linkCate *LinkCate) All() (list []*LinkCate, err error) {
 	engine := orm.GetEngine()

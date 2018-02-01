@@ -12,6 +12,7 @@ type User struct {
 	Password   string `json:"password"`                     //密码
 	Email      string `json:"email"`                        //邮件
 	Aword      string `json:"aword"`                        //一句话
+	IsBlogger  int    `json:"-" xorm:"isblogger"`           //是否是博主 0:不是 1:是
 	Createtime int64  `json:"-" xorm:"createtime"`          //注册时间
 }
 
@@ -56,5 +57,12 @@ func (user *User) Get(uid int64) (*User, error) {
 	u := new(User)
 	err := GetCheck(engine.Id(uid).Get(u))
 	return u, err
+}
 
+// GetBlogger 获取博主信息
+func (user *User) GetBlogger() (*User, error) {
+	engine := orm.GetEngine()
+	u := new(User)
+	err := GetCheck(engine.Where("isblogger=?", 1).Get(u))
+	return u, err
 }

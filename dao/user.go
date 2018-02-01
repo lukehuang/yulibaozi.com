@@ -38,3 +38,8 @@ func (userDAO *UserDAO) List() ([]*models.User, error) {
 func (userDAO *UserDAO) Get(uid int64) (*models.User, error) {
 	return userDAO.user.Get(uid)
 }
+
+// GetBlogger 获取博主信息
+func (userDAO *UserDAO) GetBlogger() (*models.User, error) {
+	return userDAO.user.GetBlogger()
+}

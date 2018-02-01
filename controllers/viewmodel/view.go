@@ -129,3 +129,14 @@ type Rec struct {
 	URL   string `json:"url"`
 	Tags  string `json:"tags"`
 }
+
+// VBlogger 博主信息
+type VBlogger struct {
+	Userid       int64  `json:"userid"`
+	Portrait     string `json:"portrait"`     //头像
+	Nickname     string `json:"nickname"`     //昵称
+	Email        string `json:"email"`        //邮件
+	Image        string `json:"image"`        //背景图片
+	SimpleIntro  string `json:"simpleintro"`  //简单介绍
+	Introduction string `json:"introduction"` //详细介绍
+}

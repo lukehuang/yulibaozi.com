@@ -40,7 +40,7 @@ func setMap(c *CommentMail) map[string]interface{} {
 // SendMail 组装内容发送邮件
 func SendMail(comm *CommentMail) error {
 	//获取地址
-	title := "您在 《" + comm.ArtTitle + "》 下新的评论,请注意查收！"
+	title := "您在 《" + comm.ArtTitle + "》 下有新的评论,请注意查收！"
 	m := setMap(comm)
 	mailContent, err := constname.ExecTemp(m)
 	if err != nil {

@@ -15,3 +15,20 @@ type LinkDAO struct {
 func (linkDAO *LinkDAO) GetsCateID(cateid int64) ([]*models.Link, error) {
 	return linkDAO.link.GetsCateID(cateid)
 }
+
+// Add 添加
+func (linkDAO *LinkDAO) Add(v *models.Link) error {
+	_, err := v.Insert()
+	return err
+}
+
+// Update 更新
+func (linkDAO *LinkDAO) Update(v *models.Link) error {
+	_, err := v.Update(v.ID)
+	return err
+}
+
+// GetName 通过名字获取链接名字
+func (linkDAO *LinkDAO) GetName(name string) (*models.Link, error) {
+	return linkDAO.link.GetName(name)
+}

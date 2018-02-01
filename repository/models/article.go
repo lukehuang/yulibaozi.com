@@ -42,7 +42,6 @@ func (article *Article) TableName() string {
 
 func init() {
 	orm.GetEngine().CreateTables(new(Article))
-
 }
 
 // Insert 写入

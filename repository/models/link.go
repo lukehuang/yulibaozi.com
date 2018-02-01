@@ -46,6 +46,14 @@ func (link *Link) Get(id int64) (*Link, error) {
 	return lin, err
 }
 
+// GetName 通过名字获取
+func (link *Link) GetName(name string) (*Link, error) {
+	engine := orm.GetEngine()
+	l := new(Link)
+	err := GetCheck(engine.Where("name=?", name).Get(l))
+	return l, err
+}
+
 // GetsCateID 通过分类id获取链接部分
 func (link *Link) GetsCateID(cateid int64) (list []*Link, err error) {
 	engine := orm.GetEngine()

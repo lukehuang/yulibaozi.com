@@ -58,7 +58,6 @@ func (artCon *ArtiCleController) NewN(ctx dotweb.Context) (err error) {
 
 // Get 获取某一条文章
 func (artCon *ArtiCleController) Get(ctx dotweb.Context) (err error) {
-
 	ip := ctx.Request().QueryHeader("ip") //从请求头中获取IP
 	id, err := artCon.GetInt64(ctx.QueryString("id"))
 	if err != nil || id <= 0 {

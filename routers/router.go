@@ -39,6 +39,8 @@ func InitRoute(server *dotweb.HttpServer) {
 	groupAPI.GET("/rec/get", new(controllers.RecController).GetN)
 	//获取轮播图部分
 	groupAPI.GET("/slide/tops", new(controllers.SlideController).TopN)
+	//博主部分
+	groupAPI.GET("/blogger", new(controllers.BloggerController).Single)
 	// groupAPI.GET("/slide/sendmail", new(controllers.SlideController).AddMail)
 	//上传文件
 	groupAPI.POST("/postfile", new(controllers.FileController).LoadFile)
@@ -46,9 +48,9 @@ func InitRoute(server *dotweb.HttpServer) {
 	groupAPI.GET("/index", v.ViewIndex)
 
 	/*后台接口部分*/
-	adminCate := new(admin.CateController)
 	adminAPI := server.Group("/admin")
 	//分类部分
+	adminCate := new(admin.CateController)
 	cat := adminAPI.Group("/cate")
 	cat.POST("/post", adminCate.AddOrUpdate) //添加/修改分类
 	//文章部分
@@ -59,4 +61,15 @@ func InitRoute(server *dotweb.HttpServer) {
 	user := new(admin.UserController)
 	adminUser := adminAPI.Group("/user")
 	adminUser.POST("/post", user.AddOrUpate)
+	//轮播图部分
+	slide := new(admin.SlideController)
+	adminSlide := adminAPI.Group("/slide")
+	adminSlide.POST("/post", slide.AddOrUpdate)
+
+	//链接部分
+	link := new(admin.LinkController)
+	adminLink := adminAPI.Group("/link")
+	adminLink.POST("/post", link.AddOrUpdate)              //添加链接
+	adminLink.POST("/cate/post", link.AddOrUpdateLinkCate) //添加链接分类
+
 }
