@@ -87,3 +87,43 @@ func (cateService *CateService) CatesAndArts() ([]*viewmodel.Kind, string, error
 	}
 	return kinds, "", nil
 }
+
+// CateIDCount 获取某文章分类的总数
+func (cateService *CateService) CateIDCount(cid int64) (int64, error) {
+	c, err := new(dao.CategoryDAO).Get(cid)
+	if err != nil {
+		return 0, err
+	}
+	if c.Count <= 0 {
+		return 0, errors.New("此标签/分类下未存在文章")
+	}
+	return c.Count, nil
+}
+
+// Page 通过文章或者分类id分页获取文章列表
+func (cateService *CateService) Page(kindid int64, offset, limit int) ([]*viewmodel.Art, error) {
+	ls, err := new(dao.RelDAO).PageCid(kindid, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+	if len(ls) <= 0 {
+		return nil, errors.New("未查询到数据1")
+	}
+	var varts []*viewmodel.Art
+	for _, v := range ls {
+		art, err := new(dao.ArticleDAO).Get(v.AId)
+		if err != nil {
+			continue
+		}
+		vArt := new(viewmodel.Art)
+		err = mapper.AutoMapper(art, vArt)
+		if err != nil {
+			continue
+		}
+		varts = append(varts, vArt)
+	}
+	if varts == nil {
+		return nil, errors.New("未查询到数据2")
+	}
+	return varts, nil
+}

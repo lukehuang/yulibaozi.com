@@ -72,7 +72,7 @@ func (artCatRel *ArtCatRel) GetAid(aid int64) (rels []*ArtCatRel, err error) {
 // PageGetCid 根据分类或者标签id分页获取文章列表
 func (artCatRel *ArtCatRel) PageGetCid(cid int64, offset, limit int) (rels []*ArtCatRel, err error) {
 	engine := orm.GetEngine()
-	err = engine.Where("cid=?", cid).Desc("id").Limit(offset, limit).Find(&rels)
+	err = engine.Where("cid=?", cid).Desc("id").Limit(limit, offset).Find(&rels)
 	return
 }
 

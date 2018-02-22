@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"html"
 
 	"github.com/devfeel/dotweb"
@@ -18,9 +19,13 @@ type CommentController struct {
 func (commCon *CommentController) Add(ctx dotweb.Context) (err error) {
 	vComm := new(viewmodel.VComment)
 	commCon.DecodeJSONReq(ctx, vComm)
+	//判断
+	if vComm.NickName == "" || vComm.Content == "" || vComm.Email == "" {
+		return commCon.Respone(ctx, constname.ErrParaMeter, 0, nil, "请输入 昵称/评论/邮箱", errors.New("参数传入不全"))
+	}
 	vComm.NickName = html.EscapeString(vComm.NickName)
 	vComm.ToUserName = html.EscapeString(vComm.ToUserName)
-	vComm.Content = html.EscapeString(vComm.Content)
+	// vComm.Content = html.EscapeString(vComm.Content)
 	msg, err := new(service.CommentService).Add(vComm)
 	if err != nil {
 		return commCon.Respone(ctx, constname.ErrData, 0, nil, msg, err)

@@ -61,6 +61,7 @@ type VComment struct {
 	NickName   string `json:"nickname"`   //当前用户名
 	ToUserName string `json:"tousername"` //二级回复时,回复给某人的用户名
 	Email      string `json:"email"`      //邮件
+	CreateTime string `json:"createtime"` //评论时间
 	WebSite    string `json:"website"`    //站点
 	IP         string `json:"ip"`         //评论的IP地址
 	Content    string `json:"content"`    //文字内容

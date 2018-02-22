@@ -115,9 +115,9 @@ func (p *Paginator) PageLink(page int) string {
 	link, _ := url.ParseRequestURI(p.Request.RequestURI)
 	values := link.Query()
 	if page == 1 {
-		values.Del("pageIndex")
+		values.Del("index")
 	} else {
-		values.Set("pageIndex", strconv.Itoa(page))
+		values.Set("index", strconv.Itoa(page))
 	}
 	link.RawQuery = values.Encode()
 	return link.String()

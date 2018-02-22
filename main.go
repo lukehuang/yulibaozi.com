@@ -15,7 +15,7 @@ func main() {
 	app := dotweb.New()
 	app.SetDevelopmentMode()
 	//静态资源配置
-	app.HttpServer.Renderer().SetTemplatePath("./views")
+	// app.HttpServer.Renderer().SetTemplatePath("./views")
 	app.HttpServer.SetEnabledListDir(false)
 	// routers.InitRoute(app.HttpServer)
 	app.SetEnabledLog(true)

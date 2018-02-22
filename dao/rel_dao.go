@@ -18,6 +18,11 @@ func (relDAO *RelDAO) GetAid(aid int64) ([]*models.ArtCatRel, error) {
 	return relDAO.rel.GetAid(aid)
 }
 
+// PageCid 按照标签或者分类id分页获取文章id
+func (relDAO *RelDAO) PageCid(cid int64, offset, limit int) ([]*models.ArtCatRel, error) {
+	return relDAO.rel.PageGetCid(cid, offset, limit)
+}
+
 // Like 获取猜我喜欢的文章id
 func (relDAO *RelDAO) Like(cid int64, limit int) ([]*models.ArtCatRel, error) {
 	return relDAO.rel.Like(cid, limit)

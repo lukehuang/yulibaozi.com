@@ -18,6 +18,7 @@ func InitRoute(server *dotweb.HttpServer) {
 	artAPI.GET("/hots", artCtl.Hot)
 	artAPI.GET("/news", artCtl.NewN)
 	artAPI.GET("/likes", artCtl.Like)
+	artAPI.GET("/cate/page", artCtl.GetByCates)
 	artAPI.GET("/static", artCtl.Statistics)
 	//标签和分类
 	cateAPI := groupAPI.Group("/cate")

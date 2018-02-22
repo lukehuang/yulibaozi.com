@@ -38,7 +38,10 @@ func (comment *CommentService) Add(vComm *viewmodel.VComment) (string, error) {
 		return constname.ErrComment, err
 	}
 	comm.CreateTime = time.Now().Format(util.StandardTimeFormat)
-	comm.Audit = constname.UnTreat
+	comm.Audit = constname.Pass
+	if comm.Audit != constname.UnTreat { //不等于未处理就添加浏览数
+		go new(dao.ArticleDAO).UpdateCommentCount(vComm.Aid)
+	}
 	err = new(dao.CommentDAO).Add(comm)
 	if err != nil {
 		return constname.ErrComment, err
