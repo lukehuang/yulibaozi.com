@@ -38,7 +38,16 @@ func (comment *CommentService) Add(vComm *viewmodel.VComment) (string, error) {
 		return constname.ErrComment, err
 	}
 	comm.CreateTime = time.Now().Format(util.StandardTimeFormat)
-	comm.Audit = constname.Pass
+	h, err := new(dao.HomeDAO).Get()
+	if err != nil {
+		comm.Audit = constname.UnTreat
+	} else {
+		if h.Isaudit == 1 {
+			comm.Audit = constname.Pass
+		} else {
+			comm.Audit = constname.UnTreat
+		}
+	}
 	if comm.Audit != constname.UnTreat { //不等于未处理就添加浏览数
 		go new(dao.ArticleDAO).UpdateCommentCount(vComm.Aid)
 	}
@@ -46,12 +55,13 @@ func (comment *CommentService) Add(vComm *viewmodel.VComment) (string, error) {
 	if err != nil {
 		return constname.ErrComment, err
 	}
-	//添加成功,需要发消息给作者
-	go func() {
-		if err := sendMail(vComm, art, comm.CreateTime); err != nil {
-			fmt.Println("发送消息失败:", err)
-		}
-	}()
+	if comm.Audit == constname.UnTreat { //添加成功,需要发消息给作者
+		go func() {
+			if err := sendMail(vComm, art, comm.CreateTime); err != nil {
+				fmt.Println("发送消息失败:", err)
+			}
+		}()
+	}
 	return "", nil
 }
 

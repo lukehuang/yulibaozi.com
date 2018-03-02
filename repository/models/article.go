@@ -158,7 +158,7 @@ func (article *Article) TopN(n int) (articles []*Article, err error) {
 // Page 分页获取文档
 func (article *Article) Page(offset, limit int) (articles []*Article, err error) {
 	engine := orm.GetEngine()
-	err = engine.Limit(limit, offset).Find(&articles)
+	err = engine.Desc("id").Limit(limit, offset).Find(&articles)
 	return
 }
 

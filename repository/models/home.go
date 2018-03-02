@@ -11,6 +11,7 @@ type Home struct {
 	Logo     string `json:"logo"`     //网站logo
 	Keywords string `json:"keywords"` //首页关键字 //关键字有利于SEO优化，建议个数在5-10之间，用英文逗号隔开
 	AWord    string `json:"aword"`    //一句话 首页描述 ->描述有利于SEO优化，建议字数在30-70之间
+	Isaudit  int    `json:"-"`        //评论是否需要审核  0:需要审核,1 评论不需要审核
 	Webicon  string `json:"webicon"`  //网站icon地址
 	Footer   string `json:"Footer"`   //底部信息
 }

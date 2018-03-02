@@ -8,7 +8,7 @@ type PostArt struct {
 	Portrait     string  `json:"portrait"`     //作者图片
 	Picture      string  `json:"picture"`      //文章图片
 	Title        string  `json:"title"`        //文章标题
-	Content      string  `json:"content" `     //文章内容
+	Content      string  `json:"content"`      //文章内容
 	Thumbscount  int     `json:"thumbscount"`  //点赞数
 	Viewcount    int     `json:"viewcount"`    //浏览数
 	Commentcount int     `json:"commentcount"` //评论数

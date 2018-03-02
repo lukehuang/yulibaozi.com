@@ -25,7 +25,7 @@ func (commCon *CommentController) Add(ctx dotweb.Context) (err error) {
 	}
 	vComm.NickName = html.EscapeString(vComm.NickName)
 	vComm.ToUserName = html.EscapeString(vComm.ToUserName)
-	// vComm.Content = html.EscapeString(vComm.Content)
+	vComm.Content = html.EscapeString(vComm.Content)
 	msg, err := new(service.CommentService).Add(vComm)
 	if err != nil {
 		return commCon.Respone(ctx, constname.ErrData, 0, nil, msg, err)

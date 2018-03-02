@@ -73,14 +73,14 @@ func (comment *Comment) GetNewest(limit int) (comments []*Comment, err error) {
 //便利该评论并根据该评论的行id作为查询的父级id查询回复，如果回复为空
 func (comment *Comment) GetComments(aid int64) (list []*Comment, err error) {
 	engine := orm.GetEngine()
-	err = engine.Where("aid=?", aid).Where("parentid=?", "").Where("audit=?", constname.Pass).Find(&list)
+	err = engine.Where("aid=?", aid).Where("parentid=?", "").Where("audit=?", constname.Pass).Desc("id").Find(&list)
 	return
 }
 
 // Gets 获取某文章所有的评论和回复
 func (comment *Comment) Gets(aid int64) (list []*Comment, err error) {
 	engine := orm.GetEngine()
-	err = engine.Where("aid=?", aid).Where("audit=?", constname.Pass).Find(&list)
+	err = engine.Where("aid=?", aid).Where("audit=?", constname.Pass).Desc("id").Find(&list)
 	return
 }
 
